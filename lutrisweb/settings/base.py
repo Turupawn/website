@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'runners',
     'accounts',
     'tosec',
+    'ingame_api',
 )
 
 BANNER_SIZE = "184x69"

@@ -20,5 +20,6 @@ JENKINS_TASKS = (
 PROJECT_APPS = (
     'games',
     'accounts',
-    'common'
+    'common',
+    'ingame_api'
 )

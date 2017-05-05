@@ -4,7 +4,7 @@ from rest_framework import filters, generics, permissions
 from rest_framework.response import Response
 from django.http import JsonResponse
 
-from games import models, serializers
+#from ingame_api import models, serializers
 
 class UnlockAchievementView(generics.GenericAPIView):
 

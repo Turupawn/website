@@ -1,7 +1,7 @@
 # pylint: disable=C0103
 from __future__ import absolute_import
 from django.conf.urls import url
-from games.views import stats as views
+from ingame_api.views import stats as views
 
 
 urlpatterns = [
