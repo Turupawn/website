@@ -4,9 +4,11 @@ from django.db import models
 from django.conf import settings
 
 from bitfield import BitField
+from games.models import Game
 
 class Stat(models.Model):
     """Ingame API Stat"""
+    game = models.ForeignKey(Game)
     STAT_TYPE = (
         ('integer', 'Integer'),
         ('float', 'Float'),
@@ -30,6 +32,7 @@ class UserStat(models.Model):
 
 class Achievement(models.Model):
     """Ingame API Achievement"""
+    game = models.ForeignKey(Game)
     name = models.CharField(max_length=200) 
     description = models.TextField(blank=True)
     achieved_icon = models.ImageField(upload_to='achievements/achieved_icon', blank=True)
