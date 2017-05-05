@@ -1,13 +1,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from bitfield import BitField
+from django.conf import settings
 
-# Create your models here.
+from bitfield import BitField
 
 class Stat(models.Model):
     """Ingame API Stat"""
-    value = models.IntegerField(null=True, blank=True) 
     STAT_TYPE = (
         ('integer', 'Integer'),
         ('float', 'Float'),
@@ -23,11 +22,22 @@ class Stat(models.Model):
     default_value = models.IntegerField(null=True, blank=True)
     aggregated = models.IntegerField(null=True, blank=True)
 
+class UserStat(models.Model):
+    """Ingame API User Stat"""
+    value = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    stat = models.ForeignKey(Stat)
+
 class Achievement(models.Model):
     """Ingame API Achievement"""
-    completed = models.BooleanField(default=False)
     name = models.CharField(max_length=200) 
     description = models.TextField(blank=True)
     achieved_icon = models.ImageField(upload_to='achievements/achieved_icon', blank=True)
     unachieved_icon = models.ImageField(upload_to='achievements/unachieved_icon', blank=True)
     stat = models.ForeignKey(Stat)
+
+class UserAchievement(models.Model):
+    """Ingame API User Achievement"""
+    completed = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    achievement = models.ForeignKey(Achievement)
