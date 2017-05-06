@@ -26,7 +26,7 @@ class Stat(models.Model):
 
 class UserStat(models.Model):
     """Ingame API User Stat"""
-    value = models.IntegerField(null=True, blank=True)
+    value = models.FloatField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     stat = models.ForeignKey(Stat)
 
