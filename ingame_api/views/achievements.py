@@ -4,6 +4,9 @@ from rest_framework import filters, generics, permissions
 from rest_framework.response import Response
 from django.http import JsonResponse
 
+from ingame_api.forms import (AchievementForm)
+from django.shortcuts import get_object_or_404, redirect, render
+
 #from ingame_api import models, serializers
 
 class UnlockAchievementView(generics.GenericAPIView):
@@ -40,3 +43,7 @@ class GetAchievementsView(generics.GenericAPIView):
                                 }
                               ]
                             })
+
+def submit_achievement(request):
+    form = AchievementForm(request.POST or None, request.FILES or None)
+    return render(request, 'achievements/submit.html', {'form': form})

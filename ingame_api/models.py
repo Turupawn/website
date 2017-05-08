@@ -37,7 +37,7 @@ class Achievement(models.Model):
     description = models.TextField(blank=True)
     achieved_icon = models.ImageField(upload_to='achievements/achieved_icon', blank=True)
     unachieved_icon = models.ImageField(upload_to='achievements/unachieved_icon', blank=True)
-    stat = models.ForeignKey(Stat)
+    stat = models.ForeignKey(Stat, blank=True, null=True)
 
 class UserAchievement(models.Model):
     """Ingame API User Achievement"""
