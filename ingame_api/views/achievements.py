@@ -1,11 +1,17 @@
 from __future__ import absolute_import
 
+import logging
+
+from django.conf import settings
 from rest_framework import filters, generics, permissions
 from rest_framework.response import Response
 from django.http import JsonResponse
+from django.urls import reverse
 
 from ingame_api.forms import (AchievementForm)
 from django.shortcuts import get_object_or_404, redirect, render
+
+LOGGER = logging.getLogger(__name__)
 
 #from ingame_api import models, serializers
 
@@ -46,4 +52,15 @@ class GetAchievementsView(generics.GenericAPIView):
 
 def submit_achievement(request):
     form = AchievementForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and form.is_valid():
+        achievement = form.save()
+
+        redirect_url = request.build_absolute_uri(reverse("api_achievement_add"))
+
+        # Enforce https
+        if not settings.DEBUG:
+            redirect_url = redirect_url.replace('http:', 'https:')
+
+        LOGGER.info('Achievement submitted, redirecting to %s', redirect_url)
+        return redirect(redirect_url)
     return render(request, 'achievements/submit.html', {'form': form})

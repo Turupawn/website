@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^/get/(?P<username>.*)/(?P<achievement_id>\d+)$', views.GetAchievementsView.as_view(),
         name='api_achievement_set'),
     url(r'^/add-achievement/$', views.submit_achievement,
-        name='api_achievement_set')
+        name='api_achievement_add')
 ]
