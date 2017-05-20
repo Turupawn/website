@@ -5,6 +5,8 @@ from ingame_api.views import achievements as views
 
 
 urlpatterns = [
+    url(r'^$', views.GetAchievementsView.as_view(),
+        name='achievements_list'),
     url(r'^/unlock/(?P<achievement_id>\d+)$', views.UnlockAchievementView.as_view(),
         name='api_achievement_unlock'),
     url(r'^/get/(?P<username>.*)/(?P<achievement_id>\d+)$', views.GetAchievementsView.as_view(),

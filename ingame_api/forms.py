@@ -31,3 +31,14 @@ class AchievementForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.include_media = False
         self.helper.add_input(Submit('submit', "Submit"))
+
+class StatForm(forms.ModelForm):
+    class Meta(object):
+        model = models.Stat
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(StatForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.include_media = False
+        self.helper.add_input(Submit('submit', "Submit"))

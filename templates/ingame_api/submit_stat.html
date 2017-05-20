@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}Submit a game - Lutris{% endblock %}
+{% block extra_head %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="form-view">
+      <h1>Submit an Stat</h1>
+      <p>
+        Create stat bla bla bla...<br />
+      </p>
+      {% crispy form %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+  {{ block.super }}
+  {{ form.media.js }}
+  <script>
+    $(function () {
+      // Workaround responsiveness bug:
+      // https://github.com/select2/select2-bootstrap-theme/issues/30
+      $.fn.select2.defaults.set("width", null);
+      $.fn.select2.defaults.set("theme", 'bootstrap');
+      $('#id_platforms').select2({
+        closeOnSelect: false,
+        placeholder: ''
+      });
+      $('#id_genres').select2({
+        closeOnSelect: false,
+        placeholder: ''
+      });
+      $('#id_search').select2();
+      $('#id_title_logo').JCropFileInput({
+        debug: false,
+        ratio: 8/3,
+        thumbMaxWidth: 184,
+        onSubmit: function (event) {
+          if(event.target.responseURL == window.location.href) {
+            document.open()
+            document.write(event.target.responseText)
+            document.close()
+          } else {
+            window.location = event.target.responseURL;
+          }
+        }
+      });
+      $("#id_search").on('select2:select', function (event) {
+        var game_id = event.target.value;
+        if (!game_id) {
+          return;
+        }
+        $.ajax({
+          url: '/thegamesdb/' + game_id + '.json',
+          dataType: "json",
+          success: function (response) {
+            $('#id_name').val(response.name);
+            $('#id_year').val(response.year);
+            $('#id_description').html(response.description);
+            $('#id_platforms').val(response.platforms).trigger('change');
+            if(response.banner) {
+              $('#id_title_logo').JCropFileInput('setImage', response.banner);
+            }
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
